@@ -23,7 +23,6 @@ class GalleryScreen extends StatefulWidget {
 class _GalleryScreenState extends State<GalleryScreen> {
   final List<String> imageUrls = [
     'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
-    'https://www.pix-star.com/blog/wp-content/uploads/2021/05/digital-photo-frames.jpg'
     'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
     'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
     'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
