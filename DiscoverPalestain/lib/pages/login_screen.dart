@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/user_info_screen.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert'; // لتحويل البيانات من وإلى JSON
 import 'signup_screen.dart'; // لإضافة التنقل إلى صفحة التسجيل في حال لم يكن المستخدم مسجلًا
@@ -13,52 +15,77 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // دالة لتسجيل الدخول
- Future<void> _login() async {
-  // التحقق من الحقول الفارغة
+Future<void> _login() async {
   if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Please fill in both email and password"), 
-      backgroundColor: const Color.fromARGB(255, 208, 55, 44), // لون الخلفية أحمر
+      SnackBar(
+        content: Text("Please fill in both email and password"),
+        backgroundColor: const Color.fromARGB(255, 208, 55, 44),
       ),
     );
-    return; // إيقاف تنفيذ الدالة إذا كانت الحقول فارغة
+    return;
   }
 
-  final String url = "http://localhost/FinalProject_Graduaction/Hotels/login.php"; // رابط السيرفر
+  final String url = "http://localhost/FinalProject_Graduaction/Hotels/login.php";
+  print("🔁 Sending login request to $url");
 
-  // إرسال الطلب إلى السيرفر
-  final response = await http.post(
-    Uri.parse(url),
-    headers: {"Content-Type": "application/json"},
-    body: jsonEncode({
-      "email": _emailController.text,
-      "password": _passwordController.text,
-    }),
-  );
-
-  final data = jsonDecode(response.body);
-
-  if (data["success"]) {
-    // إذا كانت عملية تسجيل الدخول ناجحة، انتقل إلى شاشة فندق قائمة الفنادق
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Login Successful!",style: TextStyle(color: Colors.white), // لون النص أبيض
-),    
-    backgroundColor: Colors.green, // لون الخلفية أخضر
-),
+  try {
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "email": _emailController.text,
+        "password": _passwordController.text,
+      }),
     );
 
-    // الانتقال إلى شاشة HotelListScreen باستخدام Navigator.pushReplacement
-    /*
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => HotelListScreen()),
-    );
-    */
-  } else {
-    // إذا فشلت عملية تسجيل الدخول، عرض رسالة خطأ
+    print("✅ Response received with status code: ${response.statusCode}");
+    print("📦 Raw response body: ${response.body}");
+
+    final data = jsonDecode(response.body);
+    print("🧩 Decoded JSON: $data");
+
+    if (data["success"]) {
+      print("🎉 Login success, preparing to store user info...");
+
+Box box;
+if (Hive.isBoxOpen('userBox')) {
+  box = Hive.box('userBox');
+} else {
+  box = await Hive.openBox('userBox');
+}
+      box.put('user_ID', int.parse(data['user']['user_ID'].toString()));
+      box.put('userName', data['user']['userName']);
+
+      print("📦 Stored in Hive: user_ID=${box.get('user_ID')}, userName=${box.get('userName')}");
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Login Successful!", style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      print("🔁 Navigating to UserInfoScreen...");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => UserInfoScreen()),
+      );
+    } else {
+      print("❌ Login failed, message: ${data["message"]}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(data["message"] ?? "An error occurred"),
+          backgroundColor: const Color.fromARGB(255, 208, 55, 44),
+        ),
+      );
+    }
+  } catch (e) {
+    print("🚨 Exception during login: $e");
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(data["message"] ?? "An error occurred"), backgroundColor: const Color.fromARGB(255, 208, 55, 44), // لون الخلفية أحمر
+      SnackBar(
+        content: Text("Error: $e"),
+        backgroundColor: Colors.red,
       ),
     );
   }
@@ -129,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                        onPressed: _login,
+                     onPressed: () async => await _login(),
                         child: Text("Login", style: TextStyle(fontSize: 18, color: Colors.white)),
                       ),
                       SizedBox(height: 10),
