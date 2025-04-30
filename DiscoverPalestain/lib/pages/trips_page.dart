@@ -112,7 +112,7 @@ class _TripsPageState extends State<TripsPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => TripDetailsLocationsPage(
-                                tripId: int.tryParse(trip['id']) ?? 0,
+tripId: trip['id'] ?? 0,
                               ),
                             ),
                           );
@@ -122,7 +122,7 @@ class _TripsPageState extends State<TripsPage> {
                           imageUrl: trip['image_url'] ?? '',
                           date: trip['date'] ?? '',
                           startTime: trip['start_time'] ?? '',
-                          tripId: int.tryParse(trip['id']) ?? 0,
+tripId: trip['id'] ?? 0,
                         ),
                       );
                     },

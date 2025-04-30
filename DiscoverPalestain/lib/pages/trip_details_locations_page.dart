@@ -28,7 +28,7 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
 
   Future<void> fetchTripDetails() async {
     final url =
-        'http://192.168.56.1/trip_API/get_trip_details_and_locations.php?id=${widget.tripId}';
+        'http://192.168.56.1/FinalProject_Graduaction/Trips/get_trip_details_and_locations.php?id=${widget.tripId}';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -135,9 +135,9 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                // _buildInfoColumn("Date", tripData!['date']),
-                                // _buildInfoColumn("Start", tripData!['start_time']),
-                                // _buildInfoColumn("End", tripData!['end_time']),
+                                _buildInfoColumn("Date", tripData!['date']),
+                                _buildInfoColumn("Start", tripData!['start_time']),
+                                _buildInfoColumn("End", tripData!['end_time']),
                               ],
                             ),
                             SizedBox(height: 16),
@@ -293,20 +293,19 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
 //   );
 // }
 
-//   Widget _buildInfoColumn(String label, String value) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Text(
-//           label,
-//           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-//         ),
-//         SizedBox(height: 4),
-//         Text(
-//           value,
-//           style: TextStyle(fontSize: 14),
-//         ),
-//       ],
-//     );
-//   }
+  Widget _buildInfoColumn(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+        ),
+        SizedBox(height: 4),
+        Text(
+          value,
+          style: TextStyle(fontSize: 14),
+        ),
+      ],
+    );  }
  }

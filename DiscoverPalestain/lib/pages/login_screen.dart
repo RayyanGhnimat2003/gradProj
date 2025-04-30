@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/user_info_screen.dart';
+import 'package:flutter_application_1/pages/destination_page.dart';
+//import 'package:flutter_application_1/pages/user_info_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert'; // لتحويل البيانات من وإلى JSON
@@ -69,7 +70,7 @@ if (Hive.isBoxOpen('userBox')) {
       print("🔁 Navigating to UserInfoScreen...");
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => UserInfoScreen()),
+        MaterialPageRoute(builder: (context) => DestinationPage()),
       );
     } else {
       print("❌ Login failed, message: ${data["message"]}");
