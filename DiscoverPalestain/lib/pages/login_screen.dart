@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/destination_page.dart';
+import 'package:flutter_application_1/pages/AdminPage.dart';
+//import 'package:flutter_application_1/pages/destination_page.dart';
 //import 'package:flutter_application_1/pages/user_info_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -70,7 +71,7 @@ if (Hive.isBoxOpen('userBox')) {
       print("🔁 Navigating to UserInfoScreen...");
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => DestinationPage()),
+        MaterialPageRoute(builder: (context) => AdminDestinationPage()),
       );
     } else {
       print("❌ Login failed, message: ${data["message"]}");
