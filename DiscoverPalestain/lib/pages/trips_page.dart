@@ -1,9 +1,8 @@
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/trip_details_locations_page.dart';
 import 'package:http/http.dart' as http;
-
+import 'trip_welcome_page.dart';  // استيراد الصفحة الجديدة
 import '../widgets/trip_widget.dart';
 import '../services/trip_utils.dart'; // استيراد الفنكشنات الجديدة
 
@@ -106,25 +105,26 @@ class _TripsPageState extends State<TripsPage> {
                     itemCount: filteredTrips.length,
                     itemBuilder: (context, index) {
                       final trip = filteredTrips[index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TripDetailsLocationsPage(
-tripId: trip['id'] ?? 0,
-                              ),
-                            ),
-                          );
-                        },
-                        child: TripWidget(
-                          title: trip['title'] ?? '',
-                          imageUrl: trip['image_url'] ?? '',
-                          date: trip['date'] ?? '',
-                          startTime: trip['start_time'] ?? '',
-tripId: trip['id'] ?? 0,
-                        ),
-                      );
+                     return InkWell(
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TripDetailsLocationsPage(
+          tripId: trip['id'] ?? 0,
+        ),
+      ),
+    );
+  },
+  child: TripWidget(
+    title: trip['title'] ?? '',
+    imageUrl: trip['image_url'] ?? '',
+    date: trip['date'] ?? '',
+    startTime: trip['start_time'] ?? '',
+    tripId: trip['id'] ?? 0,
+  ),
+);
+
                     },
                   ),
           ),
