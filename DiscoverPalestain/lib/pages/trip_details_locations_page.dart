@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-// import 'trip_booking_page.dart';
+ import 'trip_booking_page.dart';
 
 class TripDetailsLocationsPage extends StatefulWidget {
   final int tripId;
@@ -200,7 +200,7 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
                               },
                             ),
                             SizedBox(height: 24),
-                            // _buildBookingButton(),
+                           _buildBookingButton(),
                           ],
                         ),
                       ),
@@ -237,61 +237,61 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
       ),
     );
   }
-// Widget _buildBookingButton() {
-//   DateTime tripDate = DateTime.parse(tripData!['date']);
-//   DateTime today = DateTime.now();
-//   bool isPastTrip = tripDate.isBefore(today);
-//   bool isFull = tripData!['registered_seats'] >= tripData!['max_seats'];
-//   int availableSeats = tripData!['max_seats'] - tripData!['registered_seats'];
+Widget _buildBookingButton() {
+  DateTime tripDate = DateTime.parse(tripData!['date']);
+  DateTime today = DateTime.now();
+  bool isPastTrip = tripDate.isBefore(today);
+  bool isFull = tripData!['registered_seats'] >= tripData!['max_seats'];
+  int availableSeats = tripData!['max_seats'] - tripData!['registered_seats'];
 
-//   // طباعة القيم للتأكد من أنها صحيحة
-//   // print("Trip Date: $tripDate");
-//   // print("Available Seats: $availableSeats");
-//   // print("Price: ${tripData!["price"]}");
+  // طباعة القيم للتأكد من أنها صحيحة
+  // print("Trip Date: $tripDate");
+  // print("Available Seats: $availableSeats");
+  // print("Price: ${tripData!["price"]}");
 
-//   return ElevatedButton(
-//     onPressed: (isPastTrip || isFull)
-//         ? null
-//         : () {
-//             // التأكد من صحة البيانات قبل التوجيه
-//             if (tripData != null &&
-//                 tripData!.containsKey("price") &&
-//                 tripData!["price"] != null) {
-//               Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                   builder: (context) => TripBookingPage(
-//                     tripData: {
-//                       "tripId": widget.tripId.toString(),
-//                       "tripName": tripData!["title"],
-//                       "tripImage": tripData!["image_url"],
-//                       "seatPrice": double.parse(tripData!["price"]),
-//                       "userName": "shireen Aabed",
-//                       "availableSeats": availableSeats,
-//                     },
-//                   ),
-//                 ),
-//               );
-//             } else {
-//               // طباعة الخطأ في حال كانت البيانات مفقودة أو غير صحيحة
-//               print("Error: Missing trip price or invalid data");
-//             }
-//           },
-//     style: ButtonStyle(
-//       backgroundColor: MaterialStateProperty.all(
-//         isPastTrip || isFull ? Colors.red : Colors.blue,
-//       ),
-//     ),
-//     child: Text(
-//       isPastTrip
-//           ? "Trip has ended"
-//           : isFull
-//               ? "Fully booked"
-//               : "Book Now",
-//       style: TextStyle(color: Colors.white),
-//     ),
-//   );
-// }
+  return ElevatedButton(
+    onPressed: (isPastTrip || isFull)
+        ? null
+        : () {
+            // التأكد من صحة البيانات قبل التوجيه
+            if (tripData != null &&
+                tripData!.containsKey("price") &&
+                tripData!["price"] != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TripBookingPage(
+                    tripData: {
+                      "tripId": widget.tripId.toString(),
+                      "tripName": tripData!["title"],
+                      "tripImage": tripData!["image_url"],
+                      "seatPrice": double.parse(tripData!["price"]),
+                      "userName": "shireen Aabed",
+                      "availableSeats": availableSeats,
+                    },
+                  ),
+                ),
+              );
+            } else {
+              // طباعة الخطأ في حال كانت البيانات مفقودة أو غير صحيحة
+              print("Error: Missing trip price or invalid data");
+            }
+          },
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(
+        isPastTrip || isFull ? Colors.red : Colors.blue,
+      ),
+    ),
+    child: Text(
+      isPastTrip
+          ? "Trip has ended"
+          : isFull
+              ? "Fully booked"
+              : "Book Now",
+      style: TextStyle(color: Colors.white),
+    ),
+  );
+}
 
   Widget _buildInfoColumn(String label, String value) {
     return Column(

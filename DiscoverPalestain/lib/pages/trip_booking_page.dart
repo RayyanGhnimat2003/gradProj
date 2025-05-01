@@ -33,7 +33,7 @@ class _TripBookingPageState extends State<TripBookingPage> {
 
   // دالة لإرسال البيانات إلى الـ API
   Future<void> _bookTrip() async {
-    final String url = 'http://192.168.56.1/trip_API/book_trip.php'; 
+    final String url = 'http://192.168.56.1/FinalProject_Graduaction/Trips/book_trip.php'; 
 
     // تحويل seatPrice إلى double
     double seatPrice = double.parse(widget.tripData["seatPrice"].toString());

@@ -56,7 +56,6 @@ class _TripsPageState extends State<TripsPage> {
     super.initState();
     fetchTrips();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
