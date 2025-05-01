@@ -129,7 +129,7 @@ if (data["success"]) {
                 child: Container(
                   padding: EdgeInsets.all(30),
                   decoration: BoxDecoration(
-                    color: Color(0xFFCFE8D5),
+                    color: Colors.teal,
                     borderRadius: BorderRadius.horizontal(left: Radius.circular(20)),
                   ),
                   child: Column(
@@ -202,7 +202,7 @@ if (data["success"]) {
         filled: true,
         fillColor: Color.fromARGB(255, 210, 228, 210),
         hintText: hint,
-        prefixIcon: Icon(icon, color: Color.fromARGB(255, 106, 164, 120)),
+        prefixIcon: Icon(icon, color: Colors.teal),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide.none,

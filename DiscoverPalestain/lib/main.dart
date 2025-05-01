@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/AdminPage.dart';
 import 'package:flutter_application_1/pages/destination_page.dart';
 import 'package:flutter_application_1/pages/login_screen.dart';
+import 'package:flutter_application_1/pages/welcome_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
@@ -26,7 +27,7 @@ void main() async {
       startPage = DestinationPage();
     }
   } else {
-    startPage = LoginScreen();
+    startPage = WelcomeScreen();
   }
 
   runApp(MyApp(startPage));
