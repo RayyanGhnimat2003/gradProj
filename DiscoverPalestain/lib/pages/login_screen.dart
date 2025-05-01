@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/AdminPage.dart';
+import 'package:flutter_application_1/pages/destination_page.dart';
 //import 'package:flutter_application_1/pages/destination_page.dart';
 //import 'package:flutter_application_1/pages/user_info_screen.dart';
 import 'package:hive/hive.dart';
@@ -47,33 +48,43 @@ Future<void> _login() async {
     final data = jsonDecode(response.body);
     print("🧩 Decoded JSON: $data");
 
-    if (data["success"]) {
-      print("🎉 Login success, preparing to store user info...");
+if (data["success"]) {
+  print("🎉 Login success, preparing to store user info...");
 
-Box box;
-if (Hive.isBoxOpen('userBox')) {
-  box = Hive.box('userBox');
-} else {
-  box = await Hive.openBox('userBox');
+  Box box;
+  if (Hive.isBoxOpen('userBox')) {
+    box = Hive.box('userBox');
+  } else {
+    box = await Hive.openBox('userBox');
+  }
+
+  box.put('user_ID', int.parse(data['user']['id'].toString())); // ✅ تعديل "user_ID" لـ "id"
+  box.put('userName', data['user']['userName']);
+  box.put('role', data['role']); // خزّن الدور (user أو admin)
+
+  print("📦 Stored in Hive: user_ID=${box.get('user_ID')}, userName=${box.get('userName')}");
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text("Login Successful!", style: TextStyle(color: Colors.white)),
+      backgroundColor: Colors.green,
+    ),
+  );
+
+  // ✅ التوجيه حسب الدور
+  if (data["role"] == "admin") {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => AdminDestinationPage()),
+    );
+  } else {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => DestinationPage()),
+    );
+  }
 }
-      box.put('user_ID', int.parse(data['user']['user_ID'].toString()));
-      box.put('userName', data['user']['userName']);
-
-      print("📦 Stored in Hive: user_ID=${box.get('user_ID')}, userName=${box.get('userName')}");
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Login Successful!", style: TextStyle(color: Colors.white)),
-          backgroundColor: Colors.green,
-        ),
-      );
-
-      print("🔁 Navigating to UserInfoScreen...");
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => AdminDestinationPage()),
-      );
-    } else {
+ else {
       print("❌ Login failed, message: ${data["message"]}");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

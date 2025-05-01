@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/Hotel.dart';
+import 'package:flutter_application_1/pages/trips_page.dart';
 
 class DestinationPage extends StatelessWidget {
   const DestinationPage({Key? key}) : super(key: key);
@@ -16,8 +18,8 @@ class DestinationPage extends StatelessWidget {
           crossAxisCount: 2,
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,
-          children: const [
-            DestinationCard(
+          children: [
+            const DestinationCard(
               title: 'Restaurant',
               imagePath: '../assets/images/restaurant.jpg',
               destinationPage: RestaurantPage(),
@@ -25,14 +27,14 @@ class DestinationPage extends StatelessWidget {
             DestinationCard(
               title: 'Hotel',
               imagePath: '../assets/images/hotel.jpg',
-              destinationPage: HotelPage(),
+              destinationPage: HotelListScreen(),
             ),
-            DestinationCard(
+            const DestinationCard(
               title: 'Tour',
               imagePath: '../assets/images/tour.jpg',
-              destinationPage: TourPage(),
+              destinationPage: TripsPage(),
             ),
-            DestinationCard(
+            const DestinationCard(
               title: 'Historical Places',
               imagePath: '../assets/images/historical.jpg',
               destinationPage: HistoricalPlacesPage(),

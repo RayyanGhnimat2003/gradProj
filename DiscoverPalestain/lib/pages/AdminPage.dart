@@ -10,7 +10,7 @@ class AdminDestinationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Destinations'),
+        title: const Text('Admain Control Page'),
         elevation: 0,
       ),
       body: Padding(
@@ -21,22 +21,22 @@ class AdminDestinationPage extends StatelessWidget {
           crossAxisSpacing: 16,
           children: [
             const DestinationCard(
-              title: 'Restaurant',
+              title: 'Restaurant Control',
               imagePath: '../assets/images/restaurant.jpg',
               destinationPage: RestaurantPage(),
             ),
             DestinationCard(
-              title: 'Hotel',
+              title: 'Hotel Control',
               imagePath: '../assets/images/hotel.jpg',
               destinationPage: AdminHotelListScreen(),
             ),
             const DestinationCard(
-              title: 'Tour',
+              title: 'Tour Control',
               imagePath: '../assets/images/tour.jpg',
               destinationPage: TripsPage(),
             ),
             const DestinationCard(
-              title: 'Historical Places',
+              title: 'Historical Places Control',
               imagePath: '../assets/images/historical.jpg',
               destinationPage: HistoricalPlacesPage(),
             ),

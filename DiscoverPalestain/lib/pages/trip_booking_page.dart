@@ -50,7 +50,7 @@ class _TripBookingPageState extends State<TripBookingPage> {
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({
-        'user_id':"3",
+        'user_id':"61",
         'trip_id': widget.tripData["tripId"],
         'number_of_seats': numberOfSeats,
         'total_price': totalPrice,

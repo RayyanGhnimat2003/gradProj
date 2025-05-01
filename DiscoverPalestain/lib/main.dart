@@ -1,30 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/AdminPage.dart';
+import 'package:flutter_application_1/pages/destination_page.dart';
+import 'package:flutter_application_1/pages/login_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'pages/destination_page.dart';
-import 'pages/login_screen.dart';
+
+
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter(); // تهيئة Hive
-  await Hive.openBox('userBox'); // فتح البوكس لتخزين بيانات المستخدم
+  await Hive.openBox('userBox'); // فتح صندوق التخزين
 
-  runApp(const MyApp());
+  final box = Hive.box('userBox');
+  final int? userId = box.get('user_ID');
+  final String? role = box.get('role'); // نخزن الدور أيضًا وقت تسجيل الدخول
+
+  Widget startPage;
+
+  if (userId != null && role != null) {
+    if (role == 'admin') {
+      startPage = AdminDestinationPage();
+    } else {
+      startPage = DestinationPage();
+    }
+  } else {
+    startPage = LoginScreen();
+  }
+
+  runApp(MyApp(startPage));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final Widget startPage;
+  const MyApp(this.startPage, {super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home:  LoginScreen(),
+      home: startPage,
     );
   }
 }
+
 
