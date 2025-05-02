@@ -213,5 +213,4 @@ if (data["success"]) {
   }
 }
 
-class HotelListScreen {
-}
+
