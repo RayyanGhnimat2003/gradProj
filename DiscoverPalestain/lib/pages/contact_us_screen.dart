@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class ContactUsScreen extends StatelessWidget {
   final List<Map<String, String>> team = [
     {
@@ -81,7 +82,7 @@ class _HoverCardState extends State<HoverCard> {
         transform: Matrix4.translationValues(0, _isHovered ? -10 : 0, 0),
         child: Card(
           elevation: _isHovered ? 12 : 6,
-          shadowColor: Colors.green.shade200,
+          shadowColor: const Color.fromARGB(255, 199, 221, 199),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -106,20 +107,21 @@ class _HoverCardState extends State<HoverCard> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.email, size: 16, color: Colors.grey),
-                    SizedBox(width: 6),
-                    Flexible(
-                      child: Text(
-                        widget.email,
-                        style: TextStyle(fontSize: 13),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
+            Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Icon(Icons.email, size: 16, color: Colors.grey),
+    SizedBox(width: 6),
+    Flexible(
+      child: Text(
+        widget.email,
+        style: TextStyle(fontSize: 13),
+        overflow: TextOverflow.ellipsis,
+      ),
+    ),
+  ],
+),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

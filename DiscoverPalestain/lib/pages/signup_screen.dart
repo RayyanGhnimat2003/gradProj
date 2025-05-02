@@ -187,17 +187,18 @@ class _SignupScreenState extends State<SignupScreen> {
                 child: Container(
                   padding: EdgeInsets.all(30),
                   decoration: BoxDecoration(
-                    color: Color(0xFFCFE8D5),
+                    color: Colors.teal,
                     borderRadius: BorderRadius.horizontal(left: Radius.circular(20)),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset("images/p4.jpg", width: 150),
+                      Image.asset("../assets/images/p4.jpg", width: 150),
                       SizedBox(height: 20),
-                      Text("Discover Palestine", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                        Text("Discover Palestine", style: TextStyle(fontSize: 22,  color: const Color.fromARGB(255, 255, 255, 255),  fontWeight: FontWeight.bold)),
                       SizedBox(height: 10),
-                      Text("Join us and explore the beauty and heritage of Palestine", textAlign: TextAlign.center),
+                      Text("Explore the beauty and heritage of Palestine", textAlign: TextAlign.center , 
+                      style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255))),
                     ],
                   ),
                 ),
@@ -233,7 +234,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         SizedBox(height: 20),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
+                            backgroundColor: Colors.teal,
                             padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
@@ -258,7 +259,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       ),
-      backgroundColor: Color.fromARGB(255, 232, 252, 243),
+      backgroundColor: Color.fromARGB(255, 228, 244, 242),
     );
   }
 
@@ -270,9 +271,9 @@ class _SignupScreenState extends State<SignupScreen> {
       inputFormatters: isNumeric ? [FilteringTextInputFormatter.digitsOnly] : [],
       decoration: InputDecoration(
         filled: true,
-        fillColor: Color.fromARGB(255, 210, 228, 210),
+        fillColor: const Color.fromARGB(255, 208, 230, 228),
         hintText: hint,
-        prefixIcon: Icon(icon, color: Colors.green.shade700),
+        prefixIcon: Icon(icon, color: Colors.teal),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
       ),
     );
@@ -288,9 +289,9 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           decoration: InputDecoration(
             filled: true,
-            fillColor: Color.fromARGB(255, 210, 228, 210),
+            fillColor: const Color.fromARGB(255, 208, 230, 228),
             hintText: 'Date of Birth',
-            prefixIcon: Icon(Icons.calendar_today, color: Colors.green.shade700),
+            prefixIcon: Icon(Icons.calendar_today, color: Colors.teal),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
           ),
         ),
