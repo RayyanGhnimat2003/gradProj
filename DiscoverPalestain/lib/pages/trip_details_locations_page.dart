@@ -1,12 +1,10 @@
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
- import 'trip_booking_page.dart';
+import 'trip_booking_page.dart';
 
 class TripDetailsLocationsPage extends StatefulWidget {
   final int tripId;
-
   TripDetailsLocationsPage({required this.tripId});
 
   @override
@@ -16,8 +14,7 @@ class TripDetailsLocationsPage extends StatefulWidget {
 class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
   Map<String, dynamic>? tripData;
   bool isLoading = true;
-
-  List<Map<String, dynamic>> weatherList = []; // ✅ طقس لكل مدينة
+  List<Map<String, dynamic>> weatherList = [];
   String? weatherMessage;
 
   @override
@@ -63,7 +60,7 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
 
     if (difference > 7) {
       dateToUse = today;
-      note = "الطقس ليوم الرحلة غير متوفر حالياً، يتم عرض طقس اليوم.";
+      note = "Forecast for trip day not available. Showing today's weather.";
     }
 
     final dateString =
@@ -90,7 +87,7 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
       });
     } else {
       setState(() {
-        weatherMessage = "فشل في جلب حالة الطقس.";
+        weatherMessage = "Failed to fetch weather data.";
       });
     }
   }
@@ -99,6 +96,7 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.teal,
         title: Text('Trip Details'),
       ),
       body: isLoading
@@ -109,12 +107,7 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.network(
-                        tripData!['image_url'],
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: 200,
-                      ),
+                      _buildImageGallery(tripData!),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
@@ -123,13 +116,14 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
                             Text(
                               tripData!['title'],
                               style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.teal),
                             ),
                             SizedBox(height: 8),
                             Text(
                               tripData!['description'],
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.grey[800]),
+                              style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(height: 16),
                             Row(
@@ -140,67 +134,37 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
                                 _buildInfoColumn("End", tripData!['end_time']),
                               ],
                             ),
-                            SizedBox(height: 16),
+                            SizedBox(height: 12),
                             Text(
                               'Guide: ${tripData!['guide_name']}',
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(height: 24),
-                            if (weatherMessage != null) ...[
+                            SizedBox(height: 12),
+                            Text(
+                              'Price per person: \$${tripData!["price"]}',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.teal,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 16),
+                            if (weatherMessage != null)
                               Text(
                                 weatherMessage!,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red),
+                                style: TextStyle(color: Colors.red),
                               ),
-                              SizedBox(height: 8),
-                            ],
                             if (weatherList.isNotEmpty)
                               Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: weatherList.map((weather) {
                                   return _buildWeatherCard(
-                                    weather['city'],
-                                    weather['data'],
-                                    weather['note'],
-                                  );
+                                      weather['city'],
+                                      weather['data'],
+                                      weather['note']);
                                 }).toList(),
                               ),
                             SizedBox(height: 24),
-                            Text(
-                              'Locations',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 8),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: (tripData!['locations'] as List).length,
-                              itemBuilder: (context, index) {
-                                final location =
-                                    tripData!['locations'][index];
-                                return Card(
-                                  elevation: 3,
-                                  margin: EdgeInsets.symmetric(vertical: 8),
-                                  child: ListTile(
-                                    leading: Image.network(
-                                      location['image_name'],
-                                      width: 80,
-                                      height: 80,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    title: Text(location['location_name']),
-                                    subtitle: Text(
-                                        'Order: ${location['order_number']}'),
-                                  ),
-                                );
-                              },
-                            ),
-                            SizedBox(height: 24),
-                           _buildBookingButton(),
+                            _buildBookingButton(),
                           ],
                         ),
                       ),
@@ -210,88 +174,50 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
     );
   }
 
-  Widget _buildWeatherCard(String city, Map<String, dynamic> weatherData, String? note) {
-    final main = weatherData['main'];
-    final weatherDesc = weatherData['weather'][0];
-
-    return Card(
-      elevation: 3,
-      margin: EdgeInsets.symmetric(vertical: 6),
-      child: ListTile(
-        title: Text(
-          'الطقس في $city',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('${weatherDesc['description']}'),
-            if (note != null && note.isNotEmpty)
-              Text(
-                note,
-                style: TextStyle(color: Colors.red, fontSize: 12),
-              ),
-          ],
-        ),
-        trailing: Text('${main['temp']}°C'),
+  Widget _buildImageGallery(Map<String, dynamic> data) {
+    final List locations = data['locations'];
+    return Container(
+      height: 220,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        itemCount: locations.length + 1,
+        separatorBuilder: (context, index) {
+          return index != locations.length - 1
+              ? Icon(Icons.arrow_forward, color: Colors.teal)
+              : SizedBox();
+        },
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return _buildImageCard(data['image_url'], 'Trip');
+          } else {
+            final location = locations[index - 1];
+            return _buildImageCard(
+                location['image_name'], location['location_name']);
+          }
+        },
       ),
     );
   }
-Widget _buildBookingButton() {
-  DateTime tripDate = DateTime.parse(tripData!['date']);
-  DateTime today = DateTime.now();
-  bool isPastTrip = tripDate.isBefore(today);
-  bool isFull = tripData!['registered_seats'] >= tripData!['max_seats'];
-  int availableSeats = tripData!['max_seats'] - tripData!['registered_seats'];
 
-  // طباعة القيم للتأكد من أنها صحيحة
-  // print("Trip Date: $tripDate");
-  // print("Available Seats: $availableSeats");
-  // print("Price: ${tripData!["price"]}");
-
-  return ElevatedButton(
-    onPressed: (isPastTrip || isFull)
-        ? null
-        : () {
-            // التأكد من صحة البيانات قبل التوجيه
-            if (tripData != null &&
-                tripData!.containsKey("price") &&
-                tripData!["price"] != null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TripBookingPage(
-                    tripData: {
-                      "tripId": widget.tripId.toString(),
-                      "tripName": tripData!["title"],
-                      "tripImage": tripData!["image_url"],
-                      "seatPrice": double.parse(tripData!["price"]),
-                      "userName": "shireen Aabed",
-                      "availableSeats": availableSeats,
-                    },
-                  ),
-                ),
-              );
-            } else {
-              // طباعة الخطأ في حال كانت البيانات مفقودة أو غير صحيحة
-              print("Error: Missing trip price or invalid data");
-            }
-          },
-    style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(
-        isPastTrip || isFull ? Colors.red : Colors.blue,
-      ),
-    ),
-    child: Text(
-      isPastTrip
-          ? "Trip has ended"
-          : isFull
-              ? "Fully booked"
-              : "Book Now",
-      style: TextStyle(color: Colors.white),
-    ),
-  );
-}
+  Widget _buildImageCard(String imageUrl, String label) {
+    return Column(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Image.network(
+            imageUrl,
+            width: 140,
+            height: 140,
+            fit: BoxFit.cover,
+          ),
+        ),
+        SizedBox(height: 4),
+        Text(label,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.teal)),
+      ],
+    );
+  }
 
   Widget _buildInfoColumn(String label, String value) {
     return Column(
@@ -307,5 +233,99 @@ Widget _buildBookingButton() {
           style: TextStyle(fontSize: 14),
         ),
       ],
-    );  }
- }
+    );
+  }
+
+  Widget _buildWeatherCard(
+      String city, Map<String, dynamic> weatherData, String? note) {
+    final main = weatherData['main'];
+    final weatherDesc = weatherData['weather'][0];
+
+    return Card(
+      elevation: 4,
+      margin: EdgeInsets.symmetric(vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      color: Colors.teal[50],
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Icon(Icons.cloud, size: 40, color: Colors.teal),
+            SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Weather in $city',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.teal[900]),
+                  ),
+                  Text('${weatherDesc['description']}'),
+                  if (note != null && note.isNotEmpty)
+                    Text(note, style: TextStyle(color: Colors.red)),
+                ],
+              ),
+            ),
+            Text('${main['temp']}°C',
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal[700])),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBookingButton() {
+    DateTime tripDate = DateTime.parse(tripData!['date']);
+    DateTime today = DateTime.now();
+    bool isPastTrip = tripDate.isBefore(today);
+    bool isFull = tripData!['registered_seats'] >= tripData!['max_seats'];
+    int availableSeats = tripData!['max_seats'] - tripData!['registered_seats'];
+
+    return ElevatedButton(
+      onPressed: (isPastTrip || isFull)
+          ? null
+          : () {
+              if (tripData != null &&
+                  tripData!.containsKey("price") &&
+                  tripData!["price"] != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TripBookingPage(
+                      tripData: {
+                        "tripId": widget.tripId.toString(),
+                        "tripName": tripData!["title"],
+                        "tripImage": tripData!["image_url"],
+                        "seatPrice": double.parse(tripData!["price"]),
+                        "userName": "shireen Aabed",
+                        "availableSeats": availableSeats,
+                      },
+                    ),
+                  ),
+                );
+              } else {
+                print("Error: Missing trip price or invalid data");
+              }
+            },
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(
+          isPastTrip || isFull ? Colors.red : Colors.teal,
+        ),
+      ),
+      child: Text(
+        isPastTrip
+            ? "Trip has ended"
+            : isFull
+                ? "Fully booked"
+                : "Book Now",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}
