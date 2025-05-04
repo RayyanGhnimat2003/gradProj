@@ -160,7 +160,7 @@ class _TripsPageState extends State<TripsPage> {
     });
     
     try {
-      final response = await http.get(Uri.parse('http://192.168.56.1/FinalProject_Graduaction/Trips/get_trips2.php'));
+      final response = await http.get(Uri.parse('http://192.168.1.141/FinalProject_Graduaction/Trips/get_trips2.php'));
       if (response.statusCode == 200) {
         final List<dynamic> fetchedTrips = json.decode(response.body);
         setState(() {

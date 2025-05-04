@@ -290,7 +290,7 @@ class _RoomBookingTabState extends State<RoomBookingTab> {
   Future<void> submitBooking(List<Map<String, dynamic>> selectedRooms) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.56.1/FinalProject_Graduaction/Hotels/bookRoom.php'),
+        Uri.parse('http://192.168.1.141/FinalProject_Graduaction/Hotels/bookRoom.php'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'hotel_id': widget.hotelId,

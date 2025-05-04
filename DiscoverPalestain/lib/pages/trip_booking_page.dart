@@ -232,7 +232,7 @@ class _TripBookingPageState extends State<TripBookingPage> {
   }
 Future<void> fetchAvailableSeats() async {
   final String url =
-      'http://192.168.56.1/FinalProject_Graduaction/Trips/get_available_seats.php?trip_id=${widget.tripData['tripId']}';
+      'http://192.168.1.141/FinalProject_Graduaction/Trips/get_available_seats.php?trip_id=${widget.tripData['tripId']}';
 
   try {
     final response = await http.get(Uri.parse(url));
@@ -272,7 +272,7 @@ Future<void> fetchAvailableSeats() async {
   }
 
   Future<void> _bookTrip() async {
-    final String url = 'http://192.168.56.1/FinalProject_Graduaction/Trips/book_trip.php';
+    final String url = 'http://192.168.1.141/FinalProject_Graduaction/Trips/book_trip.php';
     double seatPrice = double.parse(widget.tripData["seatPrice"].toString());
     num totalPrice = numberOfSeats * seatPrice;
 

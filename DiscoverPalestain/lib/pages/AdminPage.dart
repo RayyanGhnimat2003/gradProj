@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/Admin_Hotel.dart';
 import 'package:flutter_application_1/pages/Hotel.dart';
+import 'package:flutter_application_1/pages/city_list_screen.dart';
 import 'package:flutter_application_1/pages/trips_page.dart';
 
 class AdminDestinationPage extends StatelessWidget {
@@ -35,10 +36,10 @@ class AdminDestinationPage extends StatelessWidget {
               imagePath: '../assets/images/tour.jpg',
               destinationPage: TripsPage(),
             ),
-            const DestinationCard(
+            DestinationCard(
               title: 'Historical Places Control',
               imagePath: '../assets/images/historical.jpg',
-              destinationPage: HistoricalPlacesPage(),
+              destinationPage: CityListScreen(),
             ),
           ],
         ),

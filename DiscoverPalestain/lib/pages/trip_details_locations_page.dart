@@ -25,7 +25,7 @@ class _TripDetailsPageState extends State<TripDetailsLocationsPage> {
 
   Future<void> fetchTripDetails() async {
     final url =
-        'http://192.168.56.1/FinalProject_Graduaction/Trips/get_trip_details_and_locations.php?id=${widget.tripId}';
+        'http://192.168.1.141/FinalProject_Graduaction/Trips/get_trip_details_and_locations.php?id=${widget.tripId}';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {

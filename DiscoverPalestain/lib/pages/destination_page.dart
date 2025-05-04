@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/Hotel.dart';
+import 'package:flutter_application_1/pages/city_list_screenUser.dart';
 import 'package:flutter_application_1/pages/google_map_screen.dart';
 import 'package:flutter_application_1/pages/trips_page.dart';
 
@@ -85,10 +86,10 @@ class DestinationPage extends StatelessWidget {
                                 imagePath: '../assets/images/tour.jpg',
                                 destinationPage: TripsPage(),
                               ),
-                              const DestinationCard(
+                               DestinationCard(
                                 title: 'Historical Places',
                                 imagePath: '../assets/images/historical.jpg',
-                                destinationPage: HistoricalPlacesPage(),
+                                destinationPage: CityListScreen(),
                               ),
                             ],
                           ),
