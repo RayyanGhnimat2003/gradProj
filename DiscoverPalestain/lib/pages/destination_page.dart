@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/Hotel.dart';
+import 'package:flutter_application_1/pages/google_map_screen.dart';
 import 'package:flutter_application_1/pages/trips_page.dart';
 
 class DestinationPage extends StatelessWidget {
@@ -115,7 +116,7 @@ Widget buildSidebarItem(BuildContext context, IconData icon, String title) {
           page = const EmergencyPage();
           break;
         case "Map":
-          page = const MapPage();
+           page = PlacesMapScreen();
           break;
         case "History of Action":
           page = const HistoryPage();
